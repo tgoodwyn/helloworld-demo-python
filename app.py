@@ -1,10 +1,15 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+import subprocess, sys
 
 class MyHandler(BaseHTTPRequestHandler):
     def do_GET(self):
         self.send_response(200)
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
+        # run df -h and put in output
+        dfout = subprocess.check_output(["df", "-h"])
+        self.wfile.write(dfout)
+        self.wfile.write("**********\n".encode())
         self.wfile.write(b'''
           ##         .
     ## ## ##        ==
