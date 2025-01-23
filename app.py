@@ -7,8 +7,14 @@ class MyHandler(BaseHTTPRequestHandler):
         self.send_header('Content-type', 'text/plain')
         self.end_headers()
         # run df -h and put in output
-        dfout = subprocess.check_output(["df", "-h"])
-        self.wfile.write(dfout)
+        #dfout = subprocess.check_output(["df", "-h"])
+        free = subprocess.check_output(["free", "-h"])
+        ps = subprocess.check_output(["ps", "aux"])
+        blk = subprocess.check_output(["cat", "/proc/partitions"])
+        # self.wfile.write(dfout)
+        self.wfile.write(free)
+        self.wfile.write(ps)
+        self.wfile.write(blk)
         self.wfile.write("**********\n".encode())
         self.wfile.write(b'''
           ##         .
